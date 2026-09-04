@@ -30,7 +30,8 @@ jobs:
       run: |
         for abi in arm64-v8a x86_64; do
           echo "Compiling for ABI: $abi"
-          mkdir -p build_$abi && cd build_`echo $abi | sed 's/-/_/g'`
+          dir_name="build_$(echo $abi | sed 's/-/_/g')"
+          mkdir -p "$dir_name" && cd "$dir_name"
           cmake \
             -DCMAKE_TOOLCHAIN_FILE=$NDK_PATH/build/cmake/android.toolchain.cmake \
             -DANDROID_ABI=$abi \
