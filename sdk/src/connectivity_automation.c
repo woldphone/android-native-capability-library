@@ -3,7 +3,7 @@
 #include <string.h>
 #include <unistd.h>
 #include "automation_common.h"
-#include "../adb-client/adb_client.h"
+#include "../include/adb_client.h"
 
 // Execute a shell command over the active on-device ADB session and return the raw output buffer
 static int execute_adb_shell_cmd(AdbSession *session, const char *cmd, char *out_buf, uint32_t max_out_len) {
