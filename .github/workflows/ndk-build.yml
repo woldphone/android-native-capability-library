@@ -29,16 +29,13 @@ jobs:
         NDK_PATH: ${{ env.ANDROID_HOME }}/ndk/26.1.10909125
       run: |
         for abi in arm64-v8a x86_64; do
-          echo "Compiling for ABI: $abi"
-          dir_name="build_$(echo $abi | sed 's/-/_/g')"
-          mkdir -p "$dir_name" && cd "$dir_name"
-          cmake \
-            -DCMAKE_TOOLCHAIN_FILE=$NDK_PATH/build/cmake/android.toolchain.cmake \
-            -DANDROID_ABI=$abi \
-            -DANDROID_PLATFORM=android-26 \
-            -DANDROID_STL=c++_shared \
-            -DCMAKE_BUILD_TYPE=Release \
-            ../sdk
+          echo "Compiling dynamic modules for ABI: $abi"
+          abi_dir="build_$(echo $abi | sed 's/-/_/g')"
+          mkdir -p "$abi_dir" && cd "$abi_dir"
+
+          # Single-line call prevents line-ending and escaping bugs on the runner
+          cmake -DCMAKE_TOOLCHAIN_FILE=$NDK_PATH/build/cmake/android.toolchain.cmake -DANDROID_ABI=$abi -DANDROID_PLATFORM=android-26 -DANDROID_STL=c++_shared -DCMAKE_BUILD_TYPE=Release ../sdk
+
           make -j$(nproc)
           cd ..
         done
