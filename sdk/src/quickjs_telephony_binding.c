@@ -8,7 +8,7 @@ typedef struct {
     int active;
 } JSTelephonyContext;
 
-static void js_telephony_finalizer(SRuntime *rt, JSValue val) {
+static void js_telephony_finalizer(JSRuntime *rt, JSValue val) {
     JSTelephonyContext *ctx = JS_GetOpaque(val, js_telephony_class_id);
     if (ctx) {
         js_free_rt(rt, ctx);
